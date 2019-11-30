@@ -1,0 +1,7 @@
+.Fish{
+    width: 30px;
+    height: 30px;
+    background: chocolate;
+    border-radius: 50%;
+    position: absolute;
+}
