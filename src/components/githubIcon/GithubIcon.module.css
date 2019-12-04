@@ -1,0 +1,30 @@
+.GithubIcon{
+    display: block;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 100;
+    border-radius: 50%;
+    background: url(../../assets/iconmonstr-github-1.svg) no-repeat;
+    background-position: center;
+    background-size: 100%;
+    background-color: #FFFFFF;
+    width: 5%;
+    padding-bottom: calc( 5% - 20px );
+    border: 10px solid #FFFFFF;
+    box-shadow: 0 0 10px rgba(102, 54, 54, 0.4), inset 0 0 10px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.GithubIcon:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(102, 54, 54, 0.4), inset 0 0 10px rgba(0,0,0,0.4);
+}
+
+@media(max-width: 1000px)
+{
+    .GithubIcon{
+        border: 5px solid #FFFFFF;
+        padding-bottom: 5% !important;
+    }
+}
