@@ -12,22 +12,28 @@ class Food extends React.PureComponent {
             maxY: window.innerHeight
         };
 
-        this.movementInterval = null;
+        this.movementInterval = {
+            interval: null,
+            timeInMilliseconds: 5
+        };
     }
 
     componentDidMount()
     {
-        this.movementInterval = setInterval(this.move, 5);
+        this.movementInterval.interval = setInterval(
+            this.move,
+            this.movementInterval.timeInMilliseconds
+            );
     }
 
     move = () => {
+        // Check if food at aquarium by y axios
         if( this.state.maxY > this.state.yPosition )
         {
-            this.setState( (state) => {
-                return {yPosition : state.yPosition+1};
-            })
+            this.setState({ yPosition: this.state.yPosition+1 });
         }
         else{
+            // destroy instance by call aquarium's function
             this.props.destroy();
         }
     };
@@ -41,7 +47,7 @@ class Food extends React.PureComponent {
     }
 
     componentWillUnmount(){
-        clearInterval(this.movementInterval);
+        clearInterval(this.movementInterval.interval);
     }
 }
 

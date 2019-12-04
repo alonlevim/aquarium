@@ -1,6 +1,164 @@
 .Aquarium{
-    background: #f7fcff;
-    height: 100%;
+    position: relative;
+    width: 80%;
+}
+
+
+.Aquarium .Background{
+    width: 100%;
+    border-radius: 127.765px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    background: rgb(175,35,96);
+    background: linear-gradient(184deg, rgba(175,35,96,1) 0%, rgba(148,23,76,1) 35%, rgba(85,46,134,1) 100%);
+    border: 15px solid white;
     position: relative;
     overflow: hidden;
+    margin: auto;
+    padding-bottom: 56.22%;
+}
+
+.Aquarium .Background:after{
+    content: '';
+    background: radial-gradient(circle, rgba(0,0,0,0) 18.72%, rgba(0,0,0,0.4) 84.65%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+    z-index: 5;
+}
+
+.Aquarium .Land{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+}
+
+.Aquarium .Rocks{
+    width: 100%;
+    position: absolute;
+    top: 85%;
+    right: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.Aquarium .Rock{
+    width: 10%;
+    position: absolute;
+    top: 90%;
+    left: 18%;
+    z-index: 3;
+}
+
+.Aquarium .Standing{
+    width: 9%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+}
+
+.Aquarium .Standing2{
+    width: 7%;
+    position: absolute;
+    bottom: 1%;
+    right: -0.5%;
+    z-index: 3;
+}
+
+.Aquarium .Sunlight{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.Aquarium .SeaKelp{
+    width: 13%;
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    z-index: 2;
+}
+
+.Aquarium .BlueShape{
+    width: 6%;
+    position: absolute;
+    bottom: -7%;
+    right: 28%;
+    z-index: 4;
+}
+
+.Aquarium .BlueShape2{
+    width: 7%;
+    position: absolute;
+    bottom: -6.5%;
+    left: 30%;
+    z-index: 4;
+}
+
+.Aquarium .GreenShape{
+    width: 10%;
+    position: absolute;
+    bottom: -1%;
+    right: 10%;
+    z-index: 2;
+}
+
+.Aquarium .GreenShape2{
+    width: 8%;
+    position: absolute;
+    bottom: -1%;
+    left: 15%;
+    z-index: 3;
+}
+
+.Aquarium .Rock2{
+    width: 33%;
+    position: absolute;
+    bottom: -13%;
+    right: 12%;
+    z-index: 2;
+}
+
+.Aquarium .Rock3{
+    width: 33%;
+    position: absolute;
+    bottom: -13%;
+    left: 18%;
+    z-index: 2;
+}
+
+.Aquarium .PurpleShape{
+    width: 8%;
+    position: absolute;
+    bottom: -1.5%;
+    left: 8%;
+    z-index: 2;
+}
+
+.Aquarium .RedShape{
+    width: 4.5%;
+    position: absolute;
+    bottom: -5%;
+    right: 50%;
+    z-index: 2;
+}
+
+.Aquarium .Bubble{
+    width: 10px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0.23;
+    
+    animation-duration: 10s;
+    animation-name: moveBubble;
+}
+@keyframes moveBubble {
+    to {
+        bottom: 100%;
+      }
 }

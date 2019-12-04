@@ -1,7 +1,6 @@
 .Fish{
-    width: 30px;
-    height: 30px;
-    background: chocolate;
-    border-radius: 50%;
+    width: 60px;
+    height: 50px;
     position: absolute;
+    z-index: 2;
 }
