@@ -7,6 +7,9 @@ Raise your fish, feed them. But be careful not to let them die!
 
 ![](./resource/image/aquarium.jpg)
 
+## Live demo
+[https://alonlevim.github.io/aquarium/](demo)
+
 ## Building the project
 
 The project is a simple. To build the whole project, just run npm install from the root directory.
