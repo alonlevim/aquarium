@@ -8,7 +8,7 @@ Raise your fish, feed them. But be careful not to let them die!
 ![](./resource/image/aquarium.jpg)
 
 ## Live demo
-[https://alonlevim.github.io/aquarium/](demo)
+[demo](https://alonlevim.github.io/aquarium/)
 
 ## Building the project
 
