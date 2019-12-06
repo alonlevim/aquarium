@@ -3,8 +3,6 @@
 A cute fish tank game built in React 🐟  
 Raise your fish, feed them. But be careful not to let them die!
 
-
-
 ![](./resource/image/aquarium.jpg)
 
 ## Live demo
