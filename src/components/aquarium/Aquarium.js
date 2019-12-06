@@ -32,6 +32,10 @@ class Aquarium extends React.PureComponent {
                 current: 0,
                 list: new Array(50)
             },
+            fish: {
+                count: 5,
+                list: []
+            },
             sizeInfoAquarium: null
         };
 
@@ -107,13 +111,29 @@ class Aquarium extends React.PureComponent {
      */
     getAquariumSizeInfo = (element) => {
         // Check if aquarium detail overwrite at state
-        if (this.state.sizeInfoAquarium == null) {
+        this.setState((state)=> {
+            if (state.sizeInfoAquarium == null) {
 
-            const sizeInfoAquarium = element.getBoundingClientRect();
-            sizeInfoAquarium.borderRadius = this.borderRadius;
-            
-            this.setState({ sizeInfoAquarium })
-        }
+                const sizeInfoAquarium = element.getBoundingClientRect();
+                sizeInfoAquarium.borderRadius = this.borderRadius;
+    
+                return { sizeInfoAquarium };
+            }
+            // Callback add fish on game
+        }, this.initInstanceFish());
+    }
+
+    initInstanceFish = () => {
+        this.setState((state) => {
+            const fish = {...state.fish};
+
+            for( var i = 0; i < fish.count; i++ )
+            {
+                fish.list.push( (sizeInfoAquarium) => <Fish sizeInfoAquarium={sizeInfoAquarium} /> );
+            }
+
+            return state;
+        });
     }
 
     render() {
@@ -137,11 +157,7 @@ class Aquarium extends React.PureComponent {
                     {this.state.bubbles.list.map(item => item)}
                     {this.state.foodInstance}
 
-                    {this.state.sizeInfoAquarium != null ? <Fish sizeInfoAquarium={this.state.sizeInfoAquarium} /> : null}
-                    {this.state.sizeInfoAquarium != null ? <Fish sizeInfoAquarium={this.state.sizeInfoAquarium} /> : null}
-                    {this.state.sizeInfoAquarium != null ? <Fish sizeInfoAquarium={this.state.sizeInfoAquarium} /> : null}
-                    {this.state.sizeInfoAquarium != null ? <Fish sizeInfoAquarium={this.state.sizeInfoAquarium} /> : null}
-                    {this.state.sizeInfoAquarium != null ? <Fish sizeInfoAquarium={this.state.sizeInfoAquarium} /> : null}
+                    {this.state.fish.list.map( item => item(this.state.sizeInfoAquarium) )}
 
                     <img src={LandSvg} alt="" className={classes.Land} />
                     <img src={sunlightSvg} alt="" className={classes.Sunlight} />
