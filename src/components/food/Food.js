@@ -14,7 +14,7 @@ class Food extends React.PureComponent {
 
         this.movementInterval = {
             interval: null,
-            timeInMilliseconds: 5
+            timeInMilliseconds: 25
         };
     }
 
