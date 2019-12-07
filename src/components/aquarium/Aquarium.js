@@ -27,7 +27,6 @@ class Aquarium extends React.PureComponent {
         super(props);
 
         this.state = {
-            foodInstance: null,
             bubbles: {
                 current: 0,
                 list: new Array(50)
@@ -35,6 +34,10 @@ class Aquarium extends React.PureComponent {
             fish: {
                 count: 5,
                 list: []
+            },
+            food: {
+                instance: null,
+                slowDownTimeInMilliseconds: 25
             },
             sizeInfoAquarium: null
         };
@@ -45,7 +48,9 @@ class Aquarium extends React.PureComponent {
         };
 
         this.borderRadius = 30;
-        this.scaleBubble = {min: 0.1, max: 1.5};
+        this.scaleBubble = { min: 0.1, max: 1.5 };
+
+        this.foodPoint = null;
 
         // When click on aquarium show one food
         document.addEventListener("click", this.handleClick);
@@ -56,19 +61,31 @@ class Aquarium extends React.PureComponent {
     }
 
     handleClick = (event) => {
-        // Check if there is no foodInstance in aquarium
-        if (!this.state.foodInstance)
-            this.setState(
-                {
-                foodInstance:
-                    <Food
-                    xPosition={event.pageX-this.state.sizeInfoAquarium.x}
-                    destroy={this.destroyFood} />
-                });
+        // Check if there is no food in aquarium
+        if (!this.state.food.instance) {
+            const food = { ...this.state.food };
+
+            food.instance = <Food
+                xPosition={event.pageX - this.state.sizeInfoAquarium.x}
+                destroy={this.destroyFood}
+                sizeInfoAquarium={this.state.sizeInfoAquarium}
+                init={this.state.food}
+                update={this.updateFood}
+            />;
+
+            this.setState({ food });
+        }
+
     };
 
+    /**
+     * Remove food from state
+     */
     destroyFood = () => {
-        this.setState({ foodInstance: null });
+        const food = { ...this.state.food };
+        food.instance = this.foodPoint = null;
+
+        this.setState({ food });
     };
 
     addBubbleToScreen = () => {
@@ -76,7 +93,7 @@ class Aquarium extends React.PureComponent {
             this.setState((state) => {
                 // New assign to object bubbles
                 const bubbles = { ...state.bubbles };
-                
+
                 // If current find in last bubble in list
                 if (bubbles.current >= bubbles.list.length) {
                     bubbles.current = 0;
@@ -107,16 +124,23 @@ class Aquarium extends React.PureComponent {
     }
 
     /**
+     * When food position changed, will update food point without state in this component
+     */
+    updateFood = (food) => {
+        this.foodPoint = food;
+    };
+
+    /**
      * Get width, height and position of aquarium by reference React
      */
     getAquariumSizeInfo = (element) => {
         // Check if aquarium detail overwrite at state
-        this.setState((state)=> {
-            if (state.sizeInfoAquarium == null) {
+        this.setState((state) => {
+            if (!state.sizeInfoAquarium) {
 
                 const sizeInfoAquarium = element.getBoundingClientRect();
                 sizeInfoAquarium.borderRadius = this.borderRadius;
-    
+
                 return { sizeInfoAquarium };
             }
             // Callback add fish on game
@@ -125,11 +149,16 @@ class Aquarium extends React.PureComponent {
 
     initInstanceFish = () => {
         this.setState((state) => {
-            const fish = {...state.fish};
+            const fish = { ...state.fish };
 
-            for( var i = 0; i < fish.count; i++ )
-            {
-                fish.list.push( (sizeInfoAquarium) => <Fish sizeInfoAquarium={sizeInfoAquarium} /> );
+            for (var i = 0; i < fish.count; i++) {
+                fish.list.push((index, sizeInfoAquarium) =>
+                    <Fish
+                        key={index}
+                        sizeInfoAquarium={sizeInfoAquarium}
+                        food={this.foodPoint}
+                        destroyFood={this.destroyFood}
+                    />);
             }
 
             return state;
@@ -155,9 +184,9 @@ class Aquarium extends React.PureComponent {
                     <img src={PurpleShapeSvg} alt="" className={classes.PurpleShape} />
                     <img src={RedShapeSvg} alt="" className={classes.RedShape} />
                     {this.state.bubbles.list.map(item => item)}
-                    {this.state.foodInstance}
+                    {this.state.food.instance}
 
-                    {this.state.fish.list.map( item => item(this.state.sizeInfoAquarium) )}
+                    {this.state.fish.list.map((item, index) => item(index, this.state.sizeInfoAquarium))}
 
                     <img src={LandSvg} alt="" className={classes.Land} />
                     <img src={sunlightSvg} alt="" className={classes.Sunlight} />
@@ -167,6 +196,7 @@ class Aquarium extends React.PureComponent {
     }
 
     componentWillUnmount() {
+        // When this component is destroy, this function will clear interval and click event listener
         document.removeEventListener("click", this.handleClick);
         clearInterval(this.addBubbleInterval.interval);
     }

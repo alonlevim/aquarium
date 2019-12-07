@@ -1,52 +1,79 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Utils from '../../utils';
 
 import classes from './Food.module.css';
+import YellowFoodSvg from '../../assets/yellow-food.svg';
+import GreenFoodSvg from '../../assets/green-food.svg';
+
+const FOOD_COLOR = {
+    GREEN: {
+        src: GreenFoodSvg,
+        class: 'green'
+    },
+    YELLOW: {
+        src: YellowFoodSvg,
+        class: 'yellow'
+    }
+};
 
 class Food extends React.PureComponent {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
             yPosition: 0,
-            maxY: window.innerHeight
+            maxY: props.sizeInfoAquarium.height - props.sizeInfoAquarium.borderRadius,
+            color: Utils.randomBetweenZeroAndOne() ? FOOD_COLOR.GREEN : FOOD_COLOR.YELLOW
         };
 
         this.movementInterval = {
             interval: null,
-            timeInMilliseconds: 25
+            timeInMilliseconds: props.init.slowDownTimeInMilliseconds
         };
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         this.movementInterval.interval = setInterval(
             this.move,
             this.movementInterval.timeInMilliseconds
-            );
+        );
     }
 
     move = () => {
         // Check if food at aquarium by y axios
-        if( this.state.maxY > this.state.yPosition )
-        {
-            this.setState({ yPosition: this.state.yPosition+1 });
+        if (this.state.maxY > this.state.yPosition) {
+            const newYPosition = this.state.yPosition + 1;
+
+            this.setState({ yPosition: newYPosition });
+
+            this.props.update({
+                y: newYPosition,
+                x: this.props.xPosition
+            });
         }
-        else{
+        else {
             // destroy instance by call aquarium's function
             this.props.destroy();
         }
     };
 
     render() {
+        const { xPosition } = this.props;
+        const { yPosition, color } = this.state;
+
         return (
-            <div className={classes.Food} style={{left: this.props.xPosition, top: this.state.yPosition}}>
-                Food
-            </div>
+            <img
+                src={color.src}
+                alt=""
+                className={[classes.Food, classes[color.class]].join(" ")}
+                style={{ left: xPosition, top: yPosition }}
+            />
         )
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
+        // When this component is destroy, this function will clear interval
         clearInterval(this.movementInterval.interval);
     }
 }
