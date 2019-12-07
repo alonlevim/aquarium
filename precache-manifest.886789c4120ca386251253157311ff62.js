@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "12b80b1332eed2d3e57448503bcef26f",
+    "revision": "010d30d13548edee79076fb101d010e4",
     "url": "/aquarium/index.html"
   },
   {
-    "revision": "bb2973d6b618145a5455",
-    "url": "/aquarium/static/css/main.351e0206.chunk.css"
+    "revision": "37b18d864f6af5196120",
+    "url": "/aquarium/static/css/main.5ad81a2c.chunk.css"
   },
   {
-    "revision": "8a9e8373d9d89dcce9ed",
-    "url": "/aquarium/static/js/2.d3a8a342.chunk.js"
+    "revision": "37a11c640e336813dde2",
+    "url": "/aquarium/static/js/2.44bd7970.chunk.js"
   },
   {
-    "revision": "bb2973d6b618145a5455",
-    "url": "/aquarium/static/js/main.ac304df1.chunk.js"
+    "revision": "37b18d864f6af5196120",
+    "url": "/aquarium/static/js/main.6fefe317.chunk.js"
   },
   {
     "revision": "ee3c6bc92623e9320291",
@@ -34,6 +34,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "a6ec6b727126a29c552a835695ae0f05",
     "url": "/aquarium/static/media/fish.a6ec6b72.svg"
+  },
+  {
+    "revision": "bf3ea358a3d9400ab4c5e2734fb6d88d",
+    "url": "/aquarium/static/media/green-food.bf3ea358.svg"
   },
   {
     "revision": "0baeed56ae23995047426c0fdc0721f9",
@@ -86,5 +90,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "5ec30dde7034b555b07458fd29ca2bcc",
     "url": "/aquarium/static/media/sunlight.5ec30dde.svg"
+  },
+  {
+    "revision": "0f938568bffddd1b76c4b05cd19c7ca6",
+    "url": "/aquarium/static/media/yellow-food.0f938568.svg"
   }
 ]);

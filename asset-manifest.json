@@ -1,20 +1,21 @@
 {
   "files": {
-    "main.css": "/aquarium/static/css/main.351e0206.chunk.css",
-    "main.js": "/aquarium/static/js/main.ac304df1.chunk.js",
-    "main.js.map": "/aquarium/static/js/main.ac304df1.chunk.js.map",
+    "main.css": "/aquarium/static/css/main.5ad81a2c.chunk.css",
+    "main.js": "/aquarium/static/js/main.6fefe317.chunk.js",
+    "main.js.map": "/aquarium/static/js/main.6fefe317.chunk.js.map",
     "runtime-main.js": "/aquarium/static/js/runtime-main.62bd49fc.js",
     "runtime-main.js.map": "/aquarium/static/js/runtime-main.62bd49fc.js.map",
-    "static/js/2.d3a8a342.chunk.js": "/aquarium/static/js/2.d3a8a342.chunk.js",
-    "static/js/2.d3a8a342.chunk.js.map": "/aquarium/static/js/2.d3a8a342.chunk.js.map",
+    "static/js/2.44bd7970.chunk.js": "/aquarium/static/js/2.44bd7970.chunk.js",
+    "static/js/2.44bd7970.chunk.js.map": "/aquarium/static/js/2.44bd7970.chunk.js.map",
     "index.html": "/aquarium/index.html",
-    "precache-manifest.592d3e2df1098f036495b8ebdb133017.js": "/aquarium/precache-manifest.592d3e2df1098f036495b8ebdb133017.js",
+    "precache-manifest.886789c4120ca386251253157311ff62.js": "/aquarium/precache-manifest.886789c4120ca386251253157311ff62.js",
     "service-worker.js": "/aquarium/service-worker.js",
-    "static/css/main.351e0206.chunk.css.map": "/aquarium/static/css/main.351e0206.chunk.css.map",
+    "static/css/main.5ad81a2c.chunk.css.map": "/aquarium/static/css/main.5ad81a2c.chunk.css.map",
     "static/media/blue-shape.svg": "/aquarium/static/media/blue-shape.40d840ac.svg",
     "static/media/blue-shape2.svg": "/aquarium/static/media/blue-shape2.15d7a192.svg",
     "static/media/bubble.svg": "/aquarium/static/media/bubble.69126146.svg",
     "static/media/fish.svg": "/aquarium/static/media/fish.a6ec6b72.svg",
+    "static/media/green-food.svg": "/aquarium/static/media/green-food.bf3ea358.svg",
     "static/media/green-shape.svg": "/aquarium/static/media/green-shape.0baeed56.svg",
     "static/media/green-shape2.svg": "/aquarium/static/media/green-shape2.80a36b2c.svg",
     "static/media/GithubIcon.module.css": "/aquarium/static/media/iconmonstr-github-1.1bb02710.svg",
@@ -27,12 +28,13 @@
     "static/media/sea-kelp.svg": "/aquarium/static/media/sea-kelp.38be889c.svg",
     "static/media/standing.svg": "/aquarium/static/media/standing.7e075853.svg",
     "static/media/standing2.svg": "/aquarium/static/media/standing2.aa55cd6d.svg",
-    "static/media/sunlight.svg": "/aquarium/static/media/sunlight.5ec30dde.svg"
+    "static/media/sunlight.svg": "/aquarium/static/media/sunlight.5ec30dde.svg",
+    "static/media/yellow-food.svg": "/aquarium/static/media/yellow-food.0f938568.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.62bd49fc.js",
-    "static/js/2.d3a8a342.chunk.js",
-    "static/css/main.351e0206.chunk.css",
-    "static/js/main.ac304df1.chunk.js"
+    "static/js/2.44bd7970.chunk.js",
+    "static/css/main.5ad81a2c.chunk.css",
+    "static/js/main.6fefe317.chunk.js"
   ]
 }
