@@ -12,7 +12,7 @@ Raise your fish, feed them. But be careful not to let them die!
 ## Rules
 
 Click anywhere to drop food for the fish.  
-The more food the fish eat, the bigger will be
+The more food the fish eat, the bigger will be!
 
 ## Building the project
 
