@@ -6,7 +6,13 @@ Raise your fish, feed them. But be careful not to let them die!
 ![](./resource/image/aquarium.jpg)
 
 ## Live demo
-[demo](https://alonlevim.github.io/aquarium/)
+
+[Demo](https://alonlevim.github.io/aquarium/)
+
+## Rules
+
+Click anywhere to drop food for the fish.  
+The more food the fish eat, the bigger will be
 
 ## Building the project
 
