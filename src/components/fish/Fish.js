@@ -14,10 +14,10 @@ class Fish extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        // Max position by aquarium minus border
+        // Max Aquarium point on screen
         const maxPositionAquarium = {
-            x: props.sizeInfoAquarium.width - props.sizeInfoAquarium.borderRadius,// minus border right and left
-            y: props.sizeInfoAquarium.height - props.sizeInfoAquarium.borderRadius// minus border top and bottom
+            x: props.rectAquarium.width,
+            y: props.rectAquarium.height
         };
         // Movement fish
         this.movementInterval = {

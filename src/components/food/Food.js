@@ -23,7 +23,7 @@ class Food extends React.PureComponent {
 
         this.state = {
             yPosition: 0,
-            maxY: props.sizeInfoAquarium.height - props.sizeInfoAquarium.borderRadius,
+            maxY: props.rectAquarium.height,
             color: Utils.randomBetweenZeroAndOne() ? FOOD_COLOR.GREEN : FOOD_COLOR.YELLOW
         };
 

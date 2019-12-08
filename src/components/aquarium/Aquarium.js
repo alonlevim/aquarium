@@ -2,6 +2,7 @@ import React from 'react';
 import Fish from '../fish/Fish';
 import Food from '../food/Food';
 import GithubIcon from '../githubIcon/GithubIcon';
+import * as Utils from '../../utils';
 
 import classes from './Aquarium.module.css';
 import LandSvg from '../../assets/land.svg';
@@ -39,7 +40,7 @@ class Aquarium extends React.PureComponent {
                 instance: null,
                 slowDownTimeInMilliseconds: 25
             },
-            sizeInfoAquarium: null
+            rectAquarium: null
         };
 
         this.addBubbleInterval = {
@@ -63,19 +64,25 @@ class Aquarium extends React.PureComponent {
     handleClick = (event) => {
         // Check if there is no food in aquarium
         if (!this.state.food.instance) {
-            const food = { ...this.state.food };
+            // Check mouse clicked on this aquarium
+            const mousePoint = { x:event.pageX, y: event.pageY, width: 1, height: 1 };
+            const { rectAquarium } = this.state;
 
-            food.instance = <Food
-                xPosition={event.pageX - this.state.sizeInfoAquarium.x}
-                destroy={this.destroyFood}
-                sizeInfoAquarium={this.state.sizeInfoAquarium}
-                init={this.state.food}
-                update={this.updateFood}
-            />;
+            if( Utils.collisionDetection(mousePoint, rectAquarium) )
+            {
+                const food = { ...this.state.food };
 
-            this.setState({ food });
+                food.instance = <Food
+                    xPosition={event.pageX - this.state.rectAquarium.x}
+                    destroy={this.destroyFood}
+                    rectAquarium={this.state.rectAquarium}
+                    init={this.state.food}
+                    update={this.updateFood}
+                />;
+    
+                this.setState({ food });
+            }
         }
-
     };
 
     /**
@@ -136,12 +143,17 @@ class Aquarium extends React.PureComponent {
     getAquariumSizeInfo = (element) => {
         // Check if aquarium detail overwrite at state
         this.setState((state) => {
-            if (!state.sizeInfoAquarium) {
+            if (!state.rectAquarium) {
 
-                const sizeInfoAquarium = element.getBoundingClientRect();
-                sizeInfoAquarium.borderRadius = this.borderRadius;
+                const elementAquarium = element.getBoundingClientRect();
+                const rectAquarium = {
+                    x: elementAquarium.x + this.borderRadius/2,
+                    y: elementAquarium.y + this.borderRadius/2,
+                    width: elementAquarium.width - this.borderRadius,
+                    height: elementAquarium.height - this.borderRadius
+                };
 
-                return { sizeInfoAquarium };
+                return { rectAquarium };
             }
             // Callback add fish on game
         }, this.initInstanceFish());
@@ -152,10 +164,10 @@ class Aquarium extends React.PureComponent {
             const fish = { ...state.fish };
 
             for (var i = 0; i < fish.count; i++) {
-                fish.list.push((index, sizeInfoAquarium) =>
+                fish.list.push((index, rectAquarium) =>
                     <Fish
                         key={index}
-                        sizeInfoAquarium={sizeInfoAquarium}
+                        rectAquarium={rectAquarium}
                         food={this.foodPoint}
                         destroyFood={this.destroyFood}
                     />);
@@ -186,7 +198,7 @@ class Aquarium extends React.PureComponent {
                     {this.state.bubbles.list.map(item => item)}
                     {this.state.food.instance}
 
-                    {this.state.fish.list.map((item, index) => item(index, this.state.sizeInfoAquarium))}
+                    {this.state.fish.list.map((item, index) => item(index, this.state.rectAquarium))}
 
                     <img src={LandSvg} alt="" className={classes.Land} />
                     <img src={sunlightSvg} alt="" className={classes.Sunlight} />
