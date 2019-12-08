@@ -19,6 +19,9 @@ class Fish extends React.PureComponent {
             x: props.rectAquarium.width,
             y: props.rectAquarium.height
         };
+        
+        this.increaseTheFishBy = 5;
+
         // Movement fish
         this.movementInterval = {
             interval: null,
@@ -33,8 +36,8 @@ class Fish extends React.PureComponent {
             speed: this.movementInterval.defaultTimeInMilliseconds,
             maxPositionAquarium: maxPositionAquarium,
             sizeInfoFish: {
-                width: 60,
-                height: 50,
+                width: 60-this.increaseTheFishBy,
+                height: 50-this.increaseTheFishBy,
                 default: true
             },
             food: {
@@ -163,7 +166,7 @@ class Fish extends React.PureComponent {
     }
 
     render() {
-        const {fishPosition, angle, size, direction} = this.state;
+        const {fishPosition, sizeInfoFish, angle, size, direction} = this.state;
 
         return (
             <img
@@ -173,11 +176,13 @@ class Fish extends React.PureComponent {
                 className={classes.Fish}
                 style={
                     {
+                        width: sizeInfoFish.width + size * this.increaseTheFishBy,
+                        height: sizeInfoFish.height + size * this.increaseTheFishBy,
                         top: fishPosition.y,
                         left: fishPosition.x,
                         transform: `
                         rotate(${angle}deg)
-                        scale(${0.9 + (size * 0.1)}, ${direction === DIRECTION.RIGHT ? (0.9 + (size * 0.1)) * (-1) : (0.9 + (size * 0.1))})
+                        scaleY(${direction === DIRECTION.RIGHT ? -1 : 1})
                         `
                     }}
             />
