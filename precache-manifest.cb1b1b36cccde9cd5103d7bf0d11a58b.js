@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0cea12b7c8bcd48490e53ac3f6c453f9",
+    "revision": "0cc7235cbd0182fb0f2ba491ca901fab",
     "url": "/aquarium/index.html"
   },
   {
-    "revision": "7db59c2eb5f613accec9",
-    "url": "/aquarium/static/css/main.5ad81a2c.chunk.css"
+    "revision": "985df58ccf2deb0d8ba9",
+    "url": "/aquarium/static/css/main.1ae2c03c.chunk.css"
   },
   {
     "revision": "37a11c640e336813dde2",
     "url": "/aquarium/static/js/2.44bd7970.chunk.js"
   },
   {
-    "revision": "7db59c2eb5f613accec9",
-    "url": "/aquarium/static/js/main.4e27afd0.chunk.js"
+    "revision": "985df58ccf2deb0d8ba9",
+    "url": "/aquarium/static/js/main.7b280dd7.chunk.js"
   },
   {
     "revision": "ee3c6bc92623e9320291",

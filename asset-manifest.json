@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/aquarium/static/css/main.5ad81a2c.chunk.css",
-    "main.js": "/aquarium/static/js/main.4e27afd0.chunk.js",
-    "main.js.map": "/aquarium/static/js/main.4e27afd0.chunk.js.map",
+    "main.css": "/aquarium/static/css/main.1ae2c03c.chunk.css",
+    "main.js": "/aquarium/static/js/main.7b280dd7.chunk.js",
+    "main.js.map": "/aquarium/static/js/main.7b280dd7.chunk.js.map",
     "runtime-main.js": "/aquarium/static/js/runtime-main.62bd49fc.js",
     "runtime-main.js.map": "/aquarium/static/js/runtime-main.62bd49fc.js.map",
     "static/js/2.44bd7970.chunk.js": "/aquarium/static/js/2.44bd7970.chunk.js",
     "static/js/2.44bd7970.chunk.js.map": "/aquarium/static/js/2.44bd7970.chunk.js.map",
     "index.html": "/aquarium/index.html",
-    "precache-manifest.214bcc6ac7453e57db69d5de15fd3ccd.js": "/aquarium/precache-manifest.214bcc6ac7453e57db69d5de15fd3ccd.js",
+    "precache-manifest.cb1b1b36cccde9cd5103d7bf0d11a58b.js": "/aquarium/precache-manifest.cb1b1b36cccde9cd5103d7bf0d11a58b.js",
     "service-worker.js": "/aquarium/service-worker.js",
-    "static/css/main.5ad81a2c.chunk.css.map": "/aquarium/static/css/main.5ad81a2c.chunk.css.map",
+    "static/css/main.1ae2c03c.chunk.css.map": "/aquarium/static/css/main.1ae2c03c.chunk.css.map",
     "static/media/blue-shape.svg": "/aquarium/static/media/blue-shape.40d840ac.svg",
     "static/media/blue-shape2.svg": "/aquarium/static/media/blue-shape2.15d7a192.svg",
     "static/media/bubble.svg": "/aquarium/static/media/bubble.69126146.svg",
@@ -34,7 +34,7 @@
   "entrypoints": [
     "static/js/runtime-main.62bd49fc.js",
     "static/js/2.44bd7970.chunk.js",
-    "static/css/main.5ad81a2c.chunk.css",
-    "static/js/main.4e27afd0.chunk.js"
+    "static/css/main.1ae2c03c.chunk.css",
+    "static/js/main.7b280dd7.chunk.js"
   ]
 }
