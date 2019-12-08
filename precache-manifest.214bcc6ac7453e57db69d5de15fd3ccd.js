@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "010d30d13548edee79076fb101d010e4",
+    "revision": "0cea12b7c8bcd48490e53ac3f6c453f9",
     "url": "/aquarium/index.html"
   },
   {
-    "revision": "37b18d864f6af5196120",
+    "revision": "7db59c2eb5f613accec9",
     "url": "/aquarium/static/css/main.5ad81a2c.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/aquarium/static/js/2.44bd7970.chunk.js"
   },
   {
-    "revision": "37b18d864f6af5196120",
-    "url": "/aquarium/static/js/main.6fefe317.chunk.js"
+    "revision": "7db59c2eb5f613accec9",
+    "url": "/aquarium/static/js/main.4e27afd0.chunk.js"
   },
   {
     "revision": "ee3c6bc92623e9320291",
