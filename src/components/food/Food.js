@@ -23,13 +23,12 @@ class Food extends React.PureComponent {
 
         this.state = {
             yPosition: 0,
-            maxY: props.rectAquarium.height,
             color: Utils.randomBetweenZeroAndOne() ? FOOD_COLOR.GREEN : FOOD_COLOR.YELLOW
         };
 
         this.movementInterval = {
             interval: null,
-            timeInMilliseconds: props.init.slowDownTimeInMilliseconds
+            timeInMilliseconds: 25
         };
     }
 
@@ -42,7 +41,7 @@ class Food extends React.PureComponent {
 
     move = () => {
         // Check if food at aquarium by y axios
-        if (this.state.maxY > this.state.yPosition) {
+        if (this.props.rectAquarium.height > this.state.yPosition) {
             const newYPosition = this.state.yPosition + 1;
 
             this.setState({ yPosition: newYPosition });

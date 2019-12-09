@@ -22,24 +22,19 @@ import BubbleSvg from '../../assets/bubble.svg';
 import Rock2Svg from '../../assets/rock2.svg';
 import { clearInterval } from 'timers';
 
+const borderRadius = 30;
+const scaleBubble = { min: 0.1, max: 1.5 };
 
 class Aquarium extends React.PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            bubbles: {
-                current: 0,
-                list: new Array(50)
-            },
-            fish: {
-                count: 5,
-                list: []
-            },
-            food: {
-                instance: null,
-                slowDownTimeInMilliseconds: 25
-            },
+            currentBubbles: 0,
+            bubblesList: new Array(50),
+            fishCount: 0,
+            fishList: [],
+            foodInstance: null,
             rectAquarium: null
         };
 
@@ -48,84 +43,84 @@ class Aquarium extends React.PureComponent {
             timeInMilliseconds: 250
         };
 
-        this.borderRadius = 30;
-        this.scaleBubble = { min: 0.1, max: 1.5 };
+        this.aquariumRef = React.createRef();
 
         this.foodPoint = null;
 
         // When click on aquarium show one food
         document.addEventListener("click", this.handleClick);
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentDidMount() {
+        this.getAquariumSizeInfo();
         this.addBubbleToScreen();
     }
 
     handleClick = (event) => {
         // Check if there is no food in aquarium
-        if (!this.state.food.instance) {
+        if (!this.state.foodInstance) {
             // Check mouse clicked on this aquarium
-            const mousePoint = { x:event.pageX, y: event.pageY, width: 1, height: 1 };
+            const mousePoint = { x: event.pageX, y: event.pageY, width: 1, height: 1 };
             const { rectAquarium } = this.state;
 
-            if( Utils.collisionDetection(mousePoint, rectAquarium) )
-            {
-                const food = { ...this.state.food };
-
-                food.instance = <Food
+            if (Utils.collisionDetection(mousePoint, rectAquarium)) {
+                const foodInstance = <Food
                     xPosition={event.pageX - this.state.rectAquarium.x}
                     destroy={this.destroyFood}
                     rectAquarium={this.state.rectAquarium}
-                    init={this.state.food}
                     update={this.updateFood}
                 />;
-    
-                this.setState({ food });
+
+                this.setState({ foodInstance });
             }
         }
+    };
+    handleResize = (event) => {
+        this.getAquariumSizeInfo();
     };
 
     /**
      * Remove food from state
      */
     destroyFood = () => {
-        const food = { ...this.state.food };
-        food.instance = this.foodPoint = null;
-
-        this.setState({ food });
+        // Clear food point
+        this.foodPoint = null;
+        this.setState({ foodInstance: null });
     };
 
     addBubbleToScreen = () => {
         this.addBubbleInterval.interval = setInterval(() => {
             this.setState((state) => {
                 // New assign to object bubbles
-                const bubbles = { ...state.bubbles };
+                const { bubblesList } = state;
+                let { currentBubbles } = state;
 
                 // If current find in last bubble in list
-                if (bubbles.current >= bubbles.list.length) {
-                    bubbles.current = 0;
+                if (currentBubbles >= bubblesList.length) {
+                    currentBubbles = 0;
                 }
 
                 // Get random point to instance bubble
                 const xPosition = Math.floor(Math.random() * window.innerWidth);
                 // Get random scale of bubble
-                const scale = (Math.random() + this.scaleBubble.min) * this.scaleBubble.max;
+                const scale = (Math.random() + scaleBubble.min) * scaleBubble.max;
 
                 // Reset next bubble in list
-                bubbles.list[bubbles.current + 1 < bubbles.list.length ? bubbles.current + 1 : 0] = null;
+                bubblesList[currentBubbles + 1 < bubblesList.length ? currentBubbles + 1 : 0] = null;
                 // New assign bubble in current index in bubble list
-                bubbles.list[bubbles.current] = <img
-                    key={bubbles.current}
+                bubblesList[currentBubbles] = <img
+                    key={currentBubbles}
                     src={BubbleSvg}
                     alt=""
                     className={classes.Bubble}
                     style={{ bottom: "50px", right: `${xPosition}px`, transform: `scale(${scale})` }}
                 />;
                 // Plus current index bubble
-                bubbles.current++;
+                currentBubbles++;
 
                 // Update state
-                return { bubbles };
+                return { bubblesList, currentBubbles };
             });
         }, this.addBubbleInterval.timeInMilliseconds);
     }
@@ -140,31 +135,27 @@ class Aquarium extends React.PureComponent {
     /**
      * Get width, height and position of aquarium by reference React
      */
-    getAquariumSizeInfo = (element) => {
-        // Check if aquarium detail overwrite at state
-        this.setState((state) => {
-            if (!state.rectAquarium) {
+    getAquariumSizeInfo = () => {
+        // Check if aquarium detail override at state
+        const elementAquarium = this.aquariumRef.current.getBoundingClientRect();
+        const rectAquarium = {
+            x: elementAquarium.x + borderRadius / 2,
+            y: elementAquarium.y + borderRadius / 2,
+            width: elementAquarium.width - borderRadius,
+            height: elementAquarium.height - borderRadius
+        };
 
-                const elementAquarium = element.getBoundingClientRect();
-                const rectAquarium = {
-                    x: elementAquarium.x + this.borderRadius/2,
-                    y: elementAquarium.y + this.borderRadius/2,
-                    width: elementAquarium.width - this.borderRadius,
-                    height: elementAquarium.height - this.borderRadius
-                };
-
-                return { rectAquarium };
-            }
+        const numberOfFish = elementAquarium.width < 1000 ? 2 : 5;
+        this.setState({ rectAquarium, fishCount: numberOfFish }
             // Callback add fish on game
-        }, this.initInstanceFish());
+            , this.initInstanceFish);
     }
 
     initInstanceFish = () => {
-        this.setState((state) => {
-            const fish = { ...state.fish };
-
-            for (var i = 0; i < fish.count; i++) {
-                fish.list.push((index, rectAquarium) =>
+        const { fishCount, fishList } = this.state;
+        if (fishList.length === 0) {
+            for (var i = 0; i < fishCount; i++) {
+                fishList.push((index, rectAquarium) =>
                     <Fish
                         key={index}
                         rectAquarium={rectAquarium}
@@ -173,15 +164,15 @@ class Aquarium extends React.PureComponent {
                     />);
             }
 
-            return state;
-        });
+            this.setState({ fishList });
+        }
     }
 
     render() {
         return (
             <div className={classes.Aquarium}>
-                <div className={classes.Background} ref={this.getAquariumSizeInfo}>
-                    <GithubIcon />
+                <GithubIcon />
+                <div className={classes.Background} ref={this.aquariumRef}>
                     <img src={StandingSvg} alt="" className={classes.Standing} />
                     <img src={Standing2Svg} alt="" className={classes.Standing2} />
                     <img src={SeaKelpSvg} alt="" className={classes.SeaKelp} />
@@ -195,11 +186,9 @@ class Aquarium extends React.PureComponent {
                     <img src={GreenShape2Svg} alt="" className={classes.GreenShape2} />
                     <img src={PurpleShapeSvg} alt="" className={classes.PurpleShape} />
                     <img src={RedShapeSvg} alt="" className={classes.RedShape} />
-                    {this.state.bubbles.list.map(item => item)}
-                    {this.state.food.instance}
-
-                    {this.state.fish.list.map((item, index) => item(index, this.state.rectAquarium))}
-
+                    {this.state.bubblesList.map(item => item)}
+                    {this.state.foodInstance}
+                    {this.state.fishList.map((item, index) => item(index, this.state.rectAquarium))}
                     <img src={LandSvg} alt="" className={classes.Land} />
                     <img src={sunlightSvg} alt="" className={classes.Sunlight} />
                 </div>
@@ -210,6 +199,7 @@ class Aquarium extends React.PureComponent {
     componentWillUnmount() {
         // When this component is destroy, this function will clear interval and click event listener
         document.removeEventListener("click", this.handleClick);
+        document.removeEventListener("resize", this.handleResize);
         clearInterval(this.addBubbleInterval.interval);
     }
 }

@@ -10,6 +10,10 @@ const DIRECTION = {
     LEFT: "left"
 };
 
+const maxDistanceToChangeDirectionAndAngle = 10;
+const increaseTheFishBy = 5;
+const foodLimit = 20;
+
 class Fish extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -19,8 +23,6 @@ class Fish extends React.PureComponent {
             x: props.rectAquarium.width,
             y: props.rectAquarium.height
         };
-        
-        this.increaseTheFishBy = 5;
 
         // Movement fish
         this.movementInterval = {
@@ -29,20 +31,17 @@ class Fish extends React.PureComponent {
         };
 
         this.state = {
-            size: 1,
+            size: 0,
             fishPosition: Utils.randomPoint(maxPositionAquarium, { width: 30, height: 30 }),
             direction: DIRECTION.LEFT,
             angle: 0,
             speed: this.movementInterval.defaultTimeInMilliseconds,
-            maxPositionAquarium: maxPositionAquarium,
-            sizeInfoFish: {
-                width: 60-this.increaseTheFishBy,
-                height: 50-this.increaseTheFishBy,
+            rectAquarium: {
+                width: 60,
+                height: 50,
                 default: true
             },
-            food: {
-                point: null
-            }
+            foodPoint: null
         };
 
         // Idle fish
@@ -50,8 +49,6 @@ class Fish extends React.PureComponent {
             timeout: null,
             timeInMilliseconds: 1000
         };
-
-        this.maxDistanceToChangeDirectionAndAngle = 10;
     }
 
 
@@ -66,15 +63,15 @@ class Fish extends React.PureComponent {
 
     componentDidUpdate(props, state) {
         // There is food or after the food destroyed
-        if (props.food || state.food.point) {
+        if (props.food || state.foodPoint) {
             this.setState((oldState) => {
-                let { food, speed } = { ...oldState };
+                let { foodPoint, speed } = { ...oldState };
                 // Update food point
-                food.point = props.food;
+                foodPoint = props.food;
                 // Speed fish change to be fast fish if have food or default if there is no
                 speed = props.food ? 1 : this.movementInterval.defaultTimeInMilliseconds;
 
-                return { food, speed };
+                return { foodPoint, speed };
             }, this.move);
         }
     }
@@ -83,7 +80,12 @@ class Fish extends React.PureComponent {
         // Disable move interval if there is
         clearInterval(this.movementInterval.interval);
         // Get target random point that fish will move
-        let tempTargetPoint = Utils.randomPoint(this.state.maxPositionAquarium, this.state.sizeInfoFish);
+        const { rectAquarium } = this.props;
+        const maxPositionAquarium = {
+            x: rectAquarium.width,
+            y: rectAquarium.height
+        };
+        let tempTargetPoint = Utils.randomPoint(maxPositionAquarium, this.state.rectAquarium);
 
         // Start move fish to target point,
         // stop when fish collision with target point
@@ -92,7 +94,7 @@ class Fish extends React.PureComponent {
             // Check if there is food on screen
             // The target point will be food point if there is in aquarium
             // Else temp target point
-            const targetPoint = this.state.food.point || tempTargetPoint;
+            const targetPoint = this.state.foodPoint || tempTargetPoint;
 
             const { fishPosition } = this.state;
             let { angle, direction } = this.state;
@@ -103,7 +105,7 @@ class Fish extends React.PureComponent {
             const distance = Utils.distanceBetweenTwoPoints(fishPosition, targetPoint);
 
             // Making sure the direction and angle not change when the distance in less 2 digital
-            if (distance > this.maxDistanceToChangeDirectionAndAngle) {
+            if (distance > maxDistanceToChangeDirectionAndAngle) {
                 direction = fishPosition.x < nextPoint.x ? DIRECTION.RIGHT : DIRECTION.LEFT;
                 // Angle
                 angle = Utils.getAngleBetweenTwoPoints(fishPosition, nextPoint) - 180;
@@ -118,7 +120,7 @@ class Fish extends React.PureComponent {
             this.setState({ fishPosition: newPosition, direction, angle });
 
             // For check collision detection between fish and target point
-            const fishObject = { ...newPosition, width: this.state.sizeInfoFish.width, height: this.state.sizeInfoFish.height };
+            const fishObject = { ...newPosition, width: this.state.rectAquarium.width, height: this.state.rectAquarium.height };
             const targetObject = { ...targetPoint, width: 1, height: 1 };
             // Check if there is collision between fish and target point
             if (Utils.collisionDetection(fishObject, targetObject)) {
@@ -126,7 +128,7 @@ class Fish extends React.PureComponent {
                 clearInterval(this.movementInterval.interval);
 
                 // If the target is food
-                if (this.state.food.point) {
+                if (this.state.foodPoint) {
                     this.eatFood();
                 }
                 else {
@@ -149,7 +151,8 @@ class Fish extends React.PureComponent {
     eatFood = () => {
         this.props.destroyFood();
         // Increase fish size
-        this.setState({ size: this.state.size + 1 });
+        if( this.state.size < foodLimit )
+            this.setState({ size: this.state.size + 1 });
     };
 
     /**
@@ -157,16 +160,16 @@ class Fish extends React.PureComponent {
      */
     getFishSizeInfo = (element) => {
         // Check if fish detail overwrite at state
-        if (this.state.sizeInfoFish.default) {
-            const sizeInfoFish = element.getBoundingClientRect();
-            sizeInfoFish.default = false;
+        if (this.state.rectAquarium.default) {
+            const rectAquarium = element.getBoundingClientRect();
+            rectAquarium.default = false;
 
-            this.setState({ sizeInfoFish })
+            this.setState({ rectAquarium })
         }
     }
 
     render() {
-        const {fishPosition, sizeInfoFish, angle, size, direction} = this.state;
+        const { fishPosition, rectAquarium, angle, size, direction } = this.state;
 
         return (
             <img
@@ -176,8 +179,8 @@ class Fish extends React.PureComponent {
                 className={classes.Fish}
                 style={
                     {
-                        width: sizeInfoFish.width + size * this.increaseTheFishBy,
-                        height: sizeInfoFish.height + size * this.increaseTheFishBy,
+                        width: rectAquarium.width + (size * increaseTheFishBy),
+                        height: rectAquarium.height + (size * increaseTheFishBy),
                         top: fishPosition.y,
                         left: fishPosition.x,
                         transform: `
