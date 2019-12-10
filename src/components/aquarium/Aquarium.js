@@ -22,8 +22,8 @@ import BubbleSvg from '../../assets/bubble.svg';
 import Rock2Svg from '../../assets/rock2.svg';
 import { clearInterval } from 'timers';
 
-const borderRadius = 30;
-const scaleBubble = { min: 0.1, max: 1.5 };
+const BORDER_RADIUS = 30;
+const SCALE_BUBBLE = { min: 0.1, max: 1.5 };
 
 class Aquarium extends React.PureComponent {
     constructor(props) {
@@ -104,7 +104,7 @@ class Aquarium extends React.PureComponent {
                 // Get random point to instance bubble
                 const xPosition = Math.floor(Math.random() * window.innerWidth);
                 // Get random scale of bubble
-                const scale = (Math.random() + scaleBubble.min) * scaleBubble.max;
+                const scale = (Math.random() + SCALE_BUBBLE.min) * SCALE_BUBBLE.max;
 
                 // Reset next bubble in list
                 bubblesList[currentBubbles + 1 < bubblesList.length ? currentBubbles + 1 : 0] = null;
@@ -139,10 +139,10 @@ class Aquarium extends React.PureComponent {
         // Check if aquarium detail override at state
         const elementAquarium = this.aquariumRef.current.getBoundingClientRect();
         const rectAquarium = {
-            x: elementAquarium.x + borderRadius / 2,
-            y: elementAquarium.y + borderRadius / 2,
-            width: elementAquarium.width - borderRadius,
-            height: elementAquarium.height - borderRadius
+            x: elementAquarium.x + BORDER_RADIUS / 2,
+            y: elementAquarium.y + BORDER_RADIUS / 2,
+            width: elementAquarium.width - BORDER_RADIUS,
+            height: elementAquarium.height - BORDER_RADIUS
         };
 
         const numberOfFish = elementAquarium.width < 1000 ? 2 : 5;

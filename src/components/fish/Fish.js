@@ -10,9 +10,9 @@ const DIRECTION = {
     LEFT: "left"
 };
 
-const maxDistanceToChangeDirectionAndAngle = 10;
-const increaseTheFishBy = 5;
-const foodLimit = 20;
+const MAX_DISTANCE_TO_CHANGE_DIRECTION_AND_ANGLE = 10;
+const INCREASE_THE_FISH_BY = 5;
+const FOOD_LIMIT = 20;
 
 class Fish extends React.PureComponent {
     constructor(props) {
@@ -105,7 +105,7 @@ class Fish extends React.PureComponent {
             const distance = Utils.distanceBetweenTwoPoints(fishPosition, targetPoint);
 
             // Making sure the direction and angle not change when the distance in less 2 digital
-            if (distance > maxDistanceToChangeDirectionAndAngle) {
+            if (distance > MAX_DISTANCE_TO_CHANGE_DIRECTION_AND_ANGLE) {
                 direction = fishPosition.x < nextPoint.x ? DIRECTION.RIGHT : DIRECTION.LEFT;
                 // Angle
                 angle = Utils.getAngleBetweenTwoPoints(fishPosition, nextPoint) - 180;
@@ -151,7 +151,7 @@ class Fish extends React.PureComponent {
     eatFood = () => {
         this.props.destroyFood();
         // Increase fish size
-        if( this.state.size < foodLimit )
+        if( this.state.size < FOOD_LIMIT )
             this.setState({ size: this.state.size + 1 });
     };
 
@@ -179,8 +179,8 @@ class Fish extends React.PureComponent {
                 className={classes.Fish}
                 style={
                     {
-                        width: rectAquarium.width + (size * increaseTheFishBy),
-                        height: rectAquarium.height + (size * increaseTheFishBy),
+                        width: rectAquarium.width + (size * INCREASE_THE_FISH_BY),
+                        height: rectAquarium.height + (size * INCREASE_THE_FISH_BY),
                         top: fishPosition.y,
                         left: fishPosition.x,
                         transform: `
