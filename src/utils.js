@@ -54,11 +54,11 @@ export const calculateNextPoint = (point1, point2) => {
         // If x of point1 is smaller from x point2
         if (point1.x < point2.x) {
             // Add pixel at x axios
-            newX = point1.x + 1;
+            newX = point1.x + 2;
         }
         else {
             // Less pixel at x axios
-            newX = point1.x - 1;
+            newX = point1.x - 2;
         }
 
         // Calculate y position by new x position
@@ -68,11 +68,11 @@ export const calculateNextPoint = (point1, point2) => {
         // If y of point1 is smaller from y point2
         if (point1.y < point2.y) {
             // Add pixel at y axios
-            newY = point1.y + 1;
+            newY = point1.y + 2;
         }
         else {
             // Less pixel at y axios
-            newY = point1.y - 1;
+            newY = point1.y - 2;
         }
 
         // Calculate x position by new y position, if m is 0 then copy value for old x point2

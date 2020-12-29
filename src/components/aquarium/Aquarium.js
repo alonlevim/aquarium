@@ -20,10 +20,13 @@ import PurpleShapeSvg from '../../assets/purple-shape.svg';
 import RedShapeSvg from '../../assets/red-shape.svg';
 import BubbleSvg from '../../assets/bubble.svg';
 import Rock2Svg from '../../assets/rock2.svg';
-import { clearInterval } from 'timers';
 
 const BORDER_RADIUS = 30;
 const SCALE_BUBBLE = { min: 0.1, max: 1.5 };
+// Frames
+const MAX_FPS = 60;
+const FRAME_RATE = 1.5;
+const ESTIMATION = Math.round(MAX_FPS / FRAME_RATE);
 
 class Aquarium extends React.PureComponent {
     constructor(props) {
@@ -38,14 +41,12 @@ class Aquarium extends React.PureComponent {
             rectAquarium: null
         };
 
-        this.addBubbleInterval = {
-            interval: null,
-            timeInMilliseconds: 250
-        };
-
         this.aquariumRef = React.createRef();
 
         this.foodPoint = null;
+
+        this.frameCount = 0;
+        this.requestAnimationFrameStarted = false;
 
         // When click on aquarium show one food
         document.addEventListener("click", this.handleClick);
@@ -53,8 +54,28 @@ class Aquarium extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.start();
+    }
+
+    start = () => {
         this.getAquariumSizeInfo();
-        this.addBubbleToScreen();
+        this.steps();
+
+        if (!this.requestAnimationFrameStarted) {
+            this.requestAnimationFrameStarted = true;
+            window.requestAnimationFrame(this.steps);
+        }
+    }
+
+    steps = () => {
+        this.frameCount++;
+
+        if (this.frameCount >= ESTIMATION) {
+            this.addBubbleToScreen();
+            this.frameCount = 0;
+        }
+
+        window.requestAnimationFrame(this.steps);
     }
 
     handleClick = (event) => {
@@ -76,6 +97,7 @@ class Aquarium extends React.PureComponent {
             }
         }
     };
+
     handleResize = (event) => {
         this.getAquariumSizeInfo();
     };
@@ -90,39 +112,37 @@ class Aquarium extends React.PureComponent {
     };
 
     addBubbleToScreen = () => {
-        this.addBubbleInterval.interval = setInterval(() => {
-            this.setState((state) => {
-                // New assign to object bubbles
-                const { bubblesList } = state;
-                let { currentBubbles } = state;
+        this.setState((state) => {
+            // New assign to object bubbles
+            const { bubblesList } = state;
+            let { currentBubbles } = state;
 
-                // If current find in last bubble in list
-                if (currentBubbles >= bubblesList.length) {
-                    currentBubbles = 0;
-                }
+            // If current find in last bubble in list
+            if (currentBubbles >= bubblesList.length) {
+                currentBubbles = 0;
+            }
 
-                // Get random point to instance bubble
-                const xPosition = Math.floor(Math.random() * window.innerWidth);
-                // Get random scale of bubble
-                const scale = (Math.random() + SCALE_BUBBLE.min) * SCALE_BUBBLE.max;
+            // Get random point to instance bubble
+            const xPosition = Math.floor(Math.random() * window.innerWidth);
+            // Get random scale of bubble
+            const scale = (Math.random() + SCALE_BUBBLE.min) * SCALE_BUBBLE.max;
 
-                // Reset next bubble in list
-                bubblesList[currentBubbles + 1 < bubblesList.length ? currentBubbles + 1 : 0] = null;
-                // New assign bubble in current index in bubble list
-                bubblesList[currentBubbles] = <img
-                    key={currentBubbles}
-                    src={BubbleSvg}
-                    alt=""
-                    className={classes.Bubble}
-                    style={{ bottom: "50px", right: `${xPosition}px`, transform: `scale(${scale})` }}
-                />;
-                // Plus current index bubble
-                currentBubbles++;
+            // Reset next bubble in list
+            bubblesList[currentBubbles + 1 < bubblesList.length ? currentBubbles + 1 : 0] = null;
+            // New assign bubble in current index in bubble list
+            bubblesList[currentBubbles] = <img
+                key={currentBubbles}
+                src={BubbleSvg}
+                alt=""
+                className={classes.Bubble}
+                style={{ bottom: "3%", right: `${xPosition}px`, transform: `scale(${scale})` }}
+            />;
+            // Plus current index bubble
+            currentBubbles++;
 
-                // Update state
-                return { bubblesList, currentBubbles };
-            });
-        }, this.addBubbleInterval.timeInMilliseconds);
+            // Update state
+            return { bubblesList, currentBubbles };
+        });
     }
 
     /**
@@ -197,10 +217,9 @@ class Aquarium extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        // When this component is destroy, this function will clear interval and click event listener
+        // When this component is destroy, this function will click event listener
         document.removeEventListener("click", this.handleClick);
         document.removeEventListener("resize", this.handleResize);
-        clearInterval(this.addBubbleInterval.interval);
     }
 }
 

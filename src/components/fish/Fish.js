@@ -13,6 +13,10 @@ const DIRECTION = {
 const MAX_DISTANCE_TO_CHANGE_DIRECTION_AND_ANGLE = 10;
 const INCREASE_THE_FISH_BY = 5;
 const FOOD_LIMIT = 20;
+// Frames
+const MAX_FPS = 60;
+const FRAME_RATE_DEFAULT = 24;
+const FRAME_RATE_FOOD_MODE = (MAX_FPS - 15);
 
 class Fish extends React.PureComponent {
     constructor(props) {
@@ -24,24 +28,19 @@ class Fish extends React.PureComponent {
             y: props.rectAquarium.height
         };
 
-        // Movement fish
-        this.movementInterval = {
-            interval: null,
-            defaultTimeInMilliseconds: 15
-        };
-
         this.state = {
             size: 0,
             fishPosition: Utils.randomPoint(maxPositionAquarium, { width: 30, height: 30 }),
             direction: DIRECTION.LEFT,
             angle: 0,
-            speed: this.movementInterval.defaultTimeInMilliseconds,
+            frameRate: FRAME_RATE_DEFAULT,
             rectAquarium: {
                 width: 60,
                 height: 50,
                 default: true
             },
-            foodPoint: null
+            foodPoint: null,
+            move: false,
         };
 
         // Idle fish
@@ -49,57 +48,69 @@ class Fish extends React.PureComponent {
             timeout: null,
             timeInMilliseconds: 1000
         };
+
+        this.frameCount = 0;
+        this.tempTargetPoint = null;
+        this.requestAnimationFrameStarted = false;
     }
 
-
     componentDidMount() {
-        // Selects by random starting idle mode or move mode
-        if (Utils.randomBetweenZeroAndOne() === 1)
-            this.idle();
-        else {
-            this.move();
-        }
+        this.start();
     }
 
     componentDidUpdate(props, state) {
         // There is food or after the food destroyed
         if (props.food || state.foodPoint) {
             this.setState((oldState) => {
-                let { foodPoint, speed } = { ...oldState };
+                let { foodPoint, frameRate } = { ...oldState };
                 // Update food point
                 foodPoint = props.food;
                 // Speed fish change to be fast fish if have food or default if there is no
-                speed = props.food ? 1 : this.movementInterval.defaultTimeInMilliseconds;
+                frameRate = props.food ? FRAME_RATE_FOOD_MODE : FRAME_RATE_DEFAULT;
 
-                return { foodPoint, speed };
-            }, this.move);
+                return { foodPoint, frameRate };
+            }, this.start);
         }
     }
 
-    move = () => {
-        // Disable move interval if there is
-        clearInterval(this.movementInterval.interval);
+    init = (CouldToBeIdle = true) => {
+        const { foodPoint } = this.state;
+
+        // Selects by random starting idle mode or move mode
+        if (foodPoint === null && CouldToBeIdle && Utils.randomBetweenZeroAndOne() === 1)
+            return this.idle();
+
         // Get target random point that fish will move
         const { rectAquarium } = this.props;
         const maxPositionAquarium = {
             x: rectAquarium.width,
             y: rectAquarium.height
         };
-        let tempTargetPoint = Utils.randomPoint(maxPositionAquarium, this.state.rectAquarium);
+
+        this.tempTargetPoint = Utils.randomPoint(maxPositionAquarium, this.state.rectAquarium);
+
+        // start move
+        this.setState({ move: true });
+    }
+
+    move = () => {
+        const { move, frameRate } = this.state;
+
+        this.frameCount++;
 
         // Start move fish to target point,
         // stop when fish collision with target point
         // then call to idle function
-        this.movementInterval.interval = setInterval(() => {
+        if (move && this.frameCount >= Math.round(MAX_FPS / frameRate)) {
             // Check if there is food on screen
-            // The target point will be food point if there is in aquarium
-            // Else temp target point
-            const targetPoint = this.state.foodPoint || tempTargetPoint;
+            // The target point will be food
+            // Else random target point
+            const targetPoint = this.state.foodPoint || this.tempTargetPoint;
 
             const { fishPosition } = this.state;
             let { angle, direction } = this.state;
 
-            // The next point fish will move in this run interval to target point
+            // The next point fish will move in this step to target point
             const nextPoint = Utils.calculateNextPoint(fishPosition, targetPoint);
             // Distance between fish and target point
             const distance = Utils.distanceBetweenTwoPoints(fishPosition, targetPoint);
@@ -125,7 +136,7 @@ class Fish extends React.PureComponent {
             // Check if there is collision between fish and target point
             if (Utils.collisionDetection(fishObject, targetObject)) {
                 // Disable next run
-                clearInterval(this.movementInterval.interval);
+                this.setState({ move: false });
 
                 // If the target is food
                 if (this.state.foodPoint) {
@@ -135,15 +146,31 @@ class Fish extends React.PureComponent {
                     this.idle();
                 }
             }
-        }, this.state.speed);
+
+            this.frameCount = 0;
+        }
+
+        window.requestAnimationFrame(this.move);
     };
 
     idle = () => {
+        this.setState({ move: false });
         this.idleTimeout.timeout = setTimeout(
             // Call to callback after x time
-            this.move,
+            () => {
+                this.start(false);
+            },
             this.idleTimeout.timeInMilliseconds);
     };
+
+    start = (CouldToBeIdle) => {
+        this.init(CouldToBeIdle);
+
+        if (!this.requestAnimationFrameStarted) {
+            this.requestAnimationFrameStarted = true;
+            window.requestAnimationFrame(this.move);
+        }
+    }
 
     /**
      * When have collision fish with food, then destroy food
@@ -151,7 +178,7 @@ class Fish extends React.PureComponent {
     eatFood = () => {
         this.props.destroyFood();
         // Increase fish size
-        if( this.state.size < FOOD_LIMIT )
+        if (this.state.size < FOOD_LIMIT)
             this.setState({ size: this.state.size + 1 });
     };
 
@@ -193,14 +220,15 @@ class Fish extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        // When this component is destroy, this function will clear interval and timeout
-        clearInterval(this.movementInterval.interval);
+        // When this component is destroy, this function will clear timeout
         clearTimeout(this.idleTimeout.timeout);
     }
 }
 
 Fish.propTypes = {
-    food: PropTypes.object
+    food: PropTypes.object,
+    rectAquarium: PropTypes.object,
+    destroyFood: PropTypes.func
 }
 
 export default Fish;
