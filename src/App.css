@@ -1,16 +1,31 @@
-html, body, #root, .App {
+html,
+body,
+#root,
+.App {
   height: 100%;
 }
-body{
+
+body {
   padding: 0;
   margin: 0;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
 }
 
-div{
+div {
   box-sizing: border-box;
 }
 
-.App{
+.App {
   display: flex;
   justify-content: center;
   align-items: center;
