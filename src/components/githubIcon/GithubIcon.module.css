@@ -1,4 +1,4 @@
-.GithubIcon{
+.GithubIcon {
     display: block;
     box-sizing: border-box;
     position: absolute;
@@ -8,11 +8,22 @@
     background-position: center;
     background-size: 100%;
     background-color: #FFFFFF;
-    width: 70px;
-    height: 70px;
-    padding-bottom: calc( 5% - 20px );
-    border: 5px solid #FFFFFF;
-    box-shadow: 0 0 10px rgba(102, 54, 54, 0.4), inset 0 0 10px rgba(0,0,0,0.4);
+    box-shadow: 0 0 10px rgba(102, 54, 54, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+@media (min-width: 500px) {
+    .GithubIcon {
+        width: 70px;
+        height: 70px;
+        border: 5px solid #FFFFFF;
+    }
+}
+@media (max-width: 499px) {
+    .GithubIcon {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #FFFFFF;
+    }
 }
