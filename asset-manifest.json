@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/aquarium/static/css/main.e91569e1.chunk.css",
+    "main.css": "/aquarium/static/css/main.5a13c0b7.chunk.css",
     "main.js": "/aquarium/static/js/main.d386dd8c.chunk.js",
     "main.js.map": "/aquarium/static/js/main.d386dd8c.chunk.js.map",
     "runtime-main.js": "/aquarium/static/js/runtime-main.62bd49fc.js",
@@ -8,9 +8,9 @@
     "static/js/2.3421182c.chunk.js": "/aquarium/static/js/2.3421182c.chunk.js",
     "static/js/2.3421182c.chunk.js.map": "/aquarium/static/js/2.3421182c.chunk.js.map",
     "index.html": "/aquarium/index.html",
-    "precache-manifest.4981fbdde12167384345483e80f61a17.js": "/aquarium/precache-manifest.4981fbdde12167384345483e80f61a17.js",
+    "precache-manifest.9d3357bdbfa24e217801cb4af5ea49e7.js": "/aquarium/precache-manifest.9d3357bdbfa24e217801cb4af5ea49e7.js",
     "service-worker.js": "/aquarium/service-worker.js",
-    "static/css/main.e91569e1.chunk.css.map": "/aquarium/static/css/main.e91569e1.chunk.css.map",
+    "static/css/main.5a13c0b7.chunk.css.map": "/aquarium/static/css/main.5a13c0b7.chunk.css.map",
     "static/media/blue-shape.svg": "/aquarium/static/media/blue-shape.40d840ac.svg",
     "static/media/blue-shape2.svg": "/aquarium/static/media/blue-shape2.15d7a192.svg",
     "static/media/bubble.svg": "/aquarium/static/media/bubble.69126146.svg",
@@ -34,7 +34,7 @@
   "entrypoints": [
     "static/js/runtime-main.62bd49fc.js",
     "static/js/2.3421182c.chunk.js",
-    "static/css/main.e91569e1.chunk.css",
+    "static/css/main.5a13c0b7.chunk.css",
     "static/js/main.d386dd8c.chunk.js"
   ]
 }
